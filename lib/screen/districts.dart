@@ -26,6 +26,7 @@ class _DistrictsState extends State<Districts> {
       appBar: AppBar(
         title: const Text('Districts'),
       ),
+      drawer: const Drawer(),
       body: GridView.builder(
         padding: const EdgeInsets.all(12.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
