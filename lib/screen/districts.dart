@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:crm/component/district-card.dart';
+import 'package:crm/component/side-drawer.dart';
 
 class Districts extends StatefulWidget {
   const Districts({Key? key}) : super(key: key);
@@ -26,7 +28,7 @@ class _DistrictsState extends State<Districts> {
       appBar: AppBar(
         title: const Text('Districts'),
       ),
-      drawer: const Drawer(),
+      drawer: const SideDrawer(),
       body: GridView.builder(
         padding: const EdgeInsets.all(12.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -43,32 +45,4 @@ class _DistrictsState extends State<Districts> {
   }
 }
 
-class DistrictCard extends StatelessWidget {
-  final String name;
 
-  const DistrictCard({required this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Bezrik",
-                style: TextStyle(fontSize: 20.0),
-              ),
-              Text(
-                name,
-                style: const TextStyle(fontSize: 20.0),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
