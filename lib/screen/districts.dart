@@ -1,6 +1,9 @@
+import 'package:crm/cron/app-district-notifier.dart';
+import 'package:crm/model/district.dart';
 import 'package:flutter/material.dart';
 import 'package:crm/component/district-card.dart';
 import 'package:crm/component/side-drawer.dart';
+import 'package:provider/provider.dart';
 
 class Districts extends StatefulWidget {
   const Districts({Key? key}) : super(key: key);
@@ -10,39 +13,51 @@ class Districts extends StatefulWidget {
 }
 
 class _DistrictsState extends State<Districts> {
-  // Define a list of German districts
-  final List<String> germanDistricts = [
-    'Sud',
-    'Sudwest',
-    'Mitte',
-    'Nord',
-    'West',
-    'Nordwest',
-    'Ost',
-    'Sudost',
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Districts'),
-      ),
-      drawer: const SideDrawer(),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(12.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // You can adjust the number of columns as needed
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
-        ),
-        itemCount: germanDistricts.length,
-        itemBuilder: (context, index) {
-          return DistrictCard(name: germanDistricts[index]);
-        },
-      ),
-    );
+    return Consumer<AppDistrictNotifier>(builder: (context, state, child) {
+      Future<List<District>> districts = state.districts;
+
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text('Districts'),
+          ),
+          drawer: const SideDrawer(),
+          body: Container(
+            padding: const EdgeInsets.all(10),
+            width: double.infinity,
+            height: double.infinity,
+            child: FutureBuilder<List<District>>(
+              // Fix 2
+              future: districts,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  List<District> districts = snapshot.data ?? [];
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 4.0,
+                    ),
+                    itemCount: districts.length,
+                    itemBuilder: (context, index) =>
+                        DistrictCard(name: districts[index].getDistrict),
+                  );
+                }
+              },
+            ),
+          ));
+    });
   }
 }
-
-

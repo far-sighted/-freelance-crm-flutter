@@ -1,3 +1,4 @@
+import 'package:crm/cron/app-district-notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,11 @@ class Crm extends StatelessWidget {
       overlays: [SystemUiOverlay.top],
     );
 
-    return ChangeNotifierProvider(
-      create: (context) => AppThemeNotifier(),
-
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppThemeNotifier()),
+        ChangeNotifierProvider(create: (context) => AppDistrictNotifier())
+      ],
       child: Consumer<AppThemeNotifier>(builder: (context, state, child) {
         ThemeMode currentTheme =
             state.isDarkTheme ? ThemeMode.dark : ThemeMode.light;
@@ -38,3 +41,12 @@ class Crm extends StatelessWidget {
     );
   }
 }
+
+
+/**
+ 
+
+
+      
+ 
+ */
