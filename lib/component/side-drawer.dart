@@ -69,7 +69,10 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
           ),
           const Divider(),
-          const ThemeSwitcher(),
+          Container(
+            padding: const EdgeInsets.only(bottom: 32.0),
+            child: const ThemeSwitcher(),
+          )
         ],
       ),
     );
