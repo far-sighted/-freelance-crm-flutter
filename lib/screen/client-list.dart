@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:crm/screen/client-form.dart';
+import 'package:crm/component/client-floating-add-button.dart';
 
 class ClientList extends StatefulWidget {
   const ClientList({super.key});
@@ -14,6 +16,7 @@ class _ClientListState extends State<ClientList> {
       appBar: AppBar(
         title: const Text('Client List'),
       ),
+      floatingActionButton: const FloatingButton(path: ClientForm()),
     );
   }
 }
