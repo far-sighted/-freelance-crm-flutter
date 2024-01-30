@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class District {
-  int id;
+  String id;
   String district;
 
   District({required this.id, required this.district});
@@ -11,7 +11,7 @@ class District {
 
   factory District.fromMap(Map<String, dynamic> map) {
     return District(
-      id: map['id'] as int,
+      id: map['id'] as String,
       district: map['district'] as String,
     );
   }
