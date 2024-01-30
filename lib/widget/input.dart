@@ -45,7 +45,7 @@ class Input extends StatelessWidget {
         const SizedBox(height: 4.0),
         TextFormField(
           decoration: InputDecoration(
-            fillColor: Theme.of(context).colorScheme.surfaceVariant,
+            fillColor: Theme.of(context).colorScheme.secondaryContainer,
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.all(Radius.elliptical(8.0, 8.0)),
