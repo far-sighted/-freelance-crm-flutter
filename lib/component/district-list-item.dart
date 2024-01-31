@@ -7,9 +7,7 @@ class DistrictListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Card(
+    return Card(
         elevation: 1,
         shadowColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
@@ -27,7 +25,6 @@ class DistrictListItem extends StatelessWidget {
               const Icon(Icons.arrow_forward_ios, size: 18.0),
             ],
           ),
-        ),
       ),
     );
   }
