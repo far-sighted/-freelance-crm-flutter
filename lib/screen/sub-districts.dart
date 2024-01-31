@@ -1,4 +1,3 @@
-import 'package:crm/component/district-card.dart';
 import 'package:crm/component/district-list.dart';
 import 'package:crm/cron/app-district-notifier.dart';
 import 'package:crm/model/district.dart';
@@ -9,7 +8,8 @@ class SubDistricts extends StatefulWidget {
   final String districtName;
   final String districtId;
 
-  SubDistricts({required this.districtName, required this.districtId});
+  const SubDistricts(
+      {super.key, required this.districtName, required this.districtId});
 
   @override
   State<SubDistricts> createState() => _SubDistrictsState();
