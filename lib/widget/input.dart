@@ -42,7 +42,8 @@ class Input extends StatelessWidget {
           Text(label!,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 14.0,
+                letterSpacing: 0.5,
+                fontSize: 13.0,
               )),
         const SizedBox(height: 4.0),
         TextFormField(
@@ -71,6 +72,7 @@ class Input extends StatelessWidget {
               ),
             ),
             filled: true,
+            isDense: true,
             hintText: placeholder,
             label: animatedLabel != null ? Text(animatedLabel!) : null,
             prefixIcon: icon != null ? Icon(icon) : null,
