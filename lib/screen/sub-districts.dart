@@ -1,3 +1,5 @@
+import 'package:crm/component/district-card.dart';
+import 'package:crm/component/district-list.dart';
 import 'package:crm/cron/app-district-notifier.dart';
 import 'package:crm/model/district.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +33,41 @@ class _SubDistrictsState extends State<SubDistricts> {
           padding: const EdgeInsets.all(10),
           width: double.infinity,
           height: double.infinity,
-          child: const Center(
-            child: Text('SubDistricts Page Content'),
-          ),
+          child: FutureBuilder<List<District>>(
+              future: districts,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  List<District> districts = snapshot.data ?? [];
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 4.0,
+                      childAspectRatio: 5 / 1,
+                      mainAxisSpacing: 4.0,
+                    ),
+                    itemCount: districts.length,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SubDistricts(
+                                  districtName: districts[index].district,
+                                  districtId: districts[index].id)),
+                        );
+                      },
+                      child: DistrictList(
+                        name: districts[index].district,
+                      ),
+                    ),
+                  );
+                }
+              }),
         ),
       );
     });
