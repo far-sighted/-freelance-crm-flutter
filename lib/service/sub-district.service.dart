@@ -4,9 +4,10 @@ import 'package:crm/model/sub-district.dart';
 import 'package:http/http.dart' as http;
 
 class SubDistrictService {
+  String id;
   Uri uri;
 
-  SubDistrictService(id)
+  SubDistrictService({required this.id})
       : uri = Uri.https(
           "65b2ee529bfb12f6eafe8e75.mockapi.io",
           "/disctricts/$id/zones",

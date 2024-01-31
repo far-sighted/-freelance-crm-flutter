@@ -53,12 +53,13 @@ class _DistrictsState extends State<Districts> {
                       itemCount: districts.length,
                       itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
+                              Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => SubDistricts(
-                                        districtName: districts[index].district,
-                                        districtId: districts[index].id)),
+                                  builder: (context) => SubDistricts(
+                                      districtName:
+                                          districts[index].getDistrict,
+                                      districtId: districts[index].id),
+                                ),
                               );
                             },
                             child: DistrictCard(

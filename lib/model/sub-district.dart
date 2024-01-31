@@ -2,13 +2,16 @@ import 'dart:convert';
 
 class SubDistrict {
   String id;
-  String districtId;
   String zone;
+  String districtId;
 
   SubDistrict({required this.id, required this.districtId, required this.zone});
 
-  String get getSubDistrict => zone;
-  set setSubDistrict(String subDistrict) => this.zone = subDistrict;
+  String get getZone => zone;
+  set setZone(String zone) => this.zone = zone;
+
+  String get getDistrictId => districtId;
+  set setDistrictId(String districtId) => this.districtId = districtId;
 
   factory SubDistrict.fromMap(Map<String, dynamic> map) {
     return SubDistrict(

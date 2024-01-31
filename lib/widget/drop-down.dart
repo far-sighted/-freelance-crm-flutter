@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DropDown extends StatelessWidget {
-  final List<String> items;
   final String? label;
+  final List<String> items;
   final void Function(String?)? onChanged;
   final bool background;
 
   const DropDown(
       {super.key,
-      required this.items,
       this.label,
       this.onChanged,
+      required this.items,
       this.background = false});
 
   @override
@@ -45,18 +45,25 @@ class DropDown extends StatelessWidget {
               ),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 14.0,
+                  fontSize: 13.0,
               ),
               borderRadius: const BorderRadius.all(Radius.elliptical(8.0, 8.0)),
-              items: ["Select an option...", ...items]
+                items: [...items]
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
-              value: "Select an option...",
+             
               onChanged: onChanged,
+                hint: Text(
+                  "Select an option...",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 14.0,
+                  ),
+                )
             ))
       ],
     );

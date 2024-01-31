@@ -1,5 +1,6 @@
 import 'package:crm/model/district.dart';
 import 'package:crm/screen/districts.dart';
+import 'package:crm/screen/sub-districts.dart';
 import 'package:flutter/material.dart';
 
 class DrawerNavigationItems extends StatelessWidget {
@@ -32,7 +33,12 @@ class DrawerNavigationItems extends StatelessWidget {
             ...districts.map((e) => ListTile(
                   title: Text("Bezrik ${e.getDistrict}"),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SubDistricts(
+                            districtName: e.getDistrict, districtId: e.id),
+                      ),
+                    );
                   },
                 )),
         ],

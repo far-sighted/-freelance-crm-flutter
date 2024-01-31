@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Input extends StatelessWidget {
   final String? label;
-  final String placeholder;
+  final String? placeholder;
   final IconData? icon;
 
   final TextInputType? keyboardType;
@@ -15,23 +15,25 @@ class Input extends StatelessWidget {
 
   final int? lines;
   final bool background;
+  final bool enabled;
 
   final TextEditingController? controller;
 
-  const Input({
-    Key? key,
-    this.label,
-    this.icon,
-    required this.placeholder,
-    this.keyboardType = TextInputType.text,
-    this.isPassword = false,
-    this.validator,
-    this.onSaved,
-    this.animatedLabel,
-    this.lines = 1,
-    this.controller,
-      this.background = false
-  }) : super(key: key);
+  const Input(
+      {Key? key,
+      this.label,
+      this.icon,
+      this.placeholder,
+      this.keyboardType = TextInputType.text,
+      this.isPassword = false,
+      this.validator,
+      this.onSaved,
+      this.animatedLabel,
+      this.lines = 1,
+      this.controller,
+      this.background = false,
+      this.enabled = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class Input extends StatelessWidget {
           obscureText: isPassword,
           keyboardType: keyboardType,
           controller: controller,
+          enabled: enabled,
         ),
       ],
     );
