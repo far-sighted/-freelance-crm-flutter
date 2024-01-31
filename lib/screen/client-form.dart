@@ -19,7 +19,11 @@ class _ClientFormState extends State<ClientForm> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            Input(label: "Title", placeholder: "title"),
+            Input(
+              label: "Title",
+              placeholder: "title",
+              background: true,
+            ),
             SizedBox(height: 10),
             Input(label: "Surname", placeholder: "surname"),
             SizedBox(height: 10),

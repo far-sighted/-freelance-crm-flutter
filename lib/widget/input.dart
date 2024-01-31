@@ -14,6 +14,7 @@ class Input extends StatelessWidget {
   final String? animatedLabel;
 
   final int? lines;
+  final bool background;
 
   final TextEditingController? controller;
 
@@ -29,6 +30,7 @@ class Input extends StatelessWidget {
     this.animatedLabel,
     this.lines = 1,
     this.controller,
+      this.background = false
   }) : super(key: key);
 
   @override
@@ -45,7 +47,9 @@ class Input extends StatelessWidget {
         const SizedBox(height: 4.0),
         TextFormField(
           decoration: InputDecoration(
-            fillColor: Theme.of(context).colorScheme.secondaryContainer,
+            fillColor: background
+                ? Theme.of(context).colorScheme.background
+                : Theme.of(context).colorScheme.secondaryContainer,
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.all(Radius.elliptical(8.0, 8.0)),
