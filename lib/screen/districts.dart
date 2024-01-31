@@ -1,5 +1,6 @@
 import 'package:crm/cron/app-district-notifier.dart';
 import 'package:crm/model/district.dart';
+import 'package:crm/screen/sub-districts.dart';
 import 'package:flutter/material.dart';
 import 'package:crm/component/district-card.dart';
 import 'package:crm/component/side-drawer.dart';
@@ -13,7 +14,6 @@ class Districts extends StatefulWidget {
 }
 
 class _DistrictsState extends State<Districts> {
-
   @override
   void initState() {
     super.initState();
@@ -44,16 +44,26 @@ class _DistrictsState extends State<Districts> {
                 } else {
                   List<District> districts = snapshot.data ?? [];
                   return GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 4.0,
-                      mainAxisSpacing: 4.0,
-                    ),
-                    itemCount: districts.length,
-                    itemBuilder: (context, index) =>
-                        DistrictCard(name: districts[index].getDistrict),
-                  );
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 4.0,
+                        mainAxisSpacing: 4.0,
+                      ),
+                      itemCount: districts.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SubDistricts(
+                                        districtName: districts[index].district,
+                                        districtId: districts[index].id)),
+                              );
+                            },
+                            child: DistrictCard(
+                                name: districts[index].getDistrict),
+                          ));
                 }
               },
             ),
