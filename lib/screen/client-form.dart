@@ -1,4 +1,8 @@
+import 'package:crm/mocks/customer-status.dart';
 import 'package:crm/mocks/list-countries.dart';
+import 'package:crm/mocks/marital-status.dart';
+import 'package:crm/mocks/product.dart';
+import 'package:crm/mocks/professional-group.dart';
 import 'package:crm/widget/date-picker.dart';
 import 'package:crm/widget/drop-down.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +86,20 @@ class _ClientFormState extends State<ClientForm> {
                       items: countries,
                       onChanged: (p0) => print(p0),
                       background: true,
-                    )
+                    ),
+                    const SizedBox(height: 18),
+                    DropDown(
+                      label: "Marital Status",
+                      items: maritalStatus,
+                      onChanged: (p0) => print(p0),
+                      background: true,
+                    ),
+                    const SizedBox(height: 18),
+                    const Input(
+                      label: "Number of Dependent Children in the Household",
+                      keyboardType: TextInputType.number,
+                      background: true,
+                    ),
                   ],
                 ),
               ),
@@ -97,7 +114,6 @@ class _ClientFormState extends State<ClientForm> {
                 child: Column(children: [
                   Input(
                     label: "Street",
-                    placeholder: "street",
                     background: true,
                   ),
                   SizedBox(height: 18),
@@ -108,7 +124,6 @@ class _ClientFormState extends State<ClientForm> {
                       Expanded(
                         child: Input(
                           label: "City",
-                          placeholder: "state",
                           background: true,
                         ),
                       ),
@@ -116,7 +131,6 @@ class _ClientFormState extends State<ClientForm> {
                       Expanded(
                         child: Input(
                           label: "House",
-                          placeholder: "number",
                           background: true,
                         ),
                       ),
@@ -124,7 +138,6 @@ class _ClientFormState extends State<ClientForm> {
                       Expanded(
                         child: Input(
                           label: "Post Code",
-                          placeholder: "ZIP",
                           background: true,
                         ),
                       ),
@@ -142,77 +155,126 @@ class _ClientFormState extends State<ClientForm> {
               controller: TextEditingController(text: "Germany"),
             ),
             const SizedBox(height: 18),
-            Input(label: "Marital Status", placeholder: "marital status"),
-            const SizedBox(height: 18),
-            Input(
-              label: "Phone (+Private / - Mobile / - Business)",
-              placeholder: "phone (+private / - mobile / -business)",
+            Card(
+              elevation: 1,
+              shadowColor: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 14, right: 14, top: 14, bottom: 18),
+                child: Row(children: <Widget>[
+                  Expanded(
+                      child: DropDown(
+                    placer: "Type",
+                    label: "Type",
+                    onChanged: (p0) => print(p0),
+                    background: true,
+                    items: const <String>["private", "mobile", "business"],
+                  )),
+                  const SizedBox(width: 18),
+                  const Expanded(
+                      flex: 2,
+                      child: Input(
+                        label: "Phone Number",
+                        background: true,
+                      )),
+                ]),
+              ),
             ),
             const SizedBox(height: 18),
-            Input(
-              label: "Consent to Advertising via Email (Revocable)",
-              placeholder:
-                  "Consent to advertising via email (can be revoked at any time)",
+            Card(
+              elevation: 1,
+              shadowColor: Colors.transparent,
+              child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 14, right: 14, top: 14, bottom: 18),
+                  child: Column(
+                    children: <Widget>[
+                      DropDown(
+                        label: "Professional Group",
+                        items: professionalGroups,
+                        onChanged: (p0) => print(p0),
+                        background: true,
+                      ),
+                      const SizedBox(height: 18),
+                      DropDown(
+                        label: "Type of Residence",
+                        items: const <String>["Rent", "Own", "With Parent"],
+                        onChanged: (p0) => print(p0),
+                        background: true,
+                      ),
+                      const SizedBox(height: 18),
+                      const Input(
+                        label: "Monthly Net Income",
+                        placeholder: "€",
+                        keyboardType: TextInputType.number,
+                        background: true,
+                      ),
+                      const SizedBox(height: 18),
+                      const DatePicker(
+                        label:
+                            "Employed by Current Employer Since/Self-Employed Since",
+                        backgroud: true,
+                      ),
+                      const SizedBox(height: 18),
+                      const Input(
+                        label: "Industry",
+                        background: true,
+                      ),
+                      const SizedBox(height: 18),
+                      
+                    ],
+                  )),
             ),
             const SizedBox(height: 18),
-            Input(
-              label: "Consent to Advertising via Phone (Revocable)",
-              placeholder:
-                  "Consent to advertising via phone (can be revoked at any time)",
+            Row(
+              children: <Widget>[
+                Switch(
+                  value: false,
+                  onChanged: (p0) => print(p0),
+                ),
+                const SizedBox(width: 18),
+                const Text("Consent to Advertising via Email (Revocable)")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Switch(
+                  value: false,
+                  onChanged: (p0) => print(p0),
+                ),
+                const SizedBox(width: 18),
+                const Text("Consent to transfer data to Schufa (Revocable)")
+              ],
             ),
             const SizedBox(height: 18),
-            Input(
-                label: "Professional Group (Key)",
-                placeholder: "Professional group (key)"),
-            const SizedBox(height: 18),
-            Input(
-                label: "Self Employed (Yes/No)",
-                placeholder: "self employed (yes/no)"),
-            const SizedBox(height: 18),
-            Input(label: "Employed (Yes/No)", placeholder: "employed (yes/no)"),
-            const SizedBox(height: 18),
-            Input(
-              label: "Employed by Current Employer Since/Self-Employed Since",
-              placeholder:
-                  "Employed by current employer since/self-employed since",
+            Card(
+              elevation: 1,
+              shadowColor: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 14, right: 14, top: 14, bottom: 18),
+                child: Column(
+                  children: <Widget>[
+                    DropDown(
+                      label: "Products",
+                      placer: "Select",
+                      items: products,
+                      background: true,
+                      onChanged: (p0) => print(p0),
+                    ),
+                    const SizedBox(height: 18),
+                    DropDown(
+                      label: "Customer Status",
+                      placer: "Select Status",
+                      items: customerService,
+                      onChanged: (p0) => print(p0),
+                      background: true,
+                    )
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 18),
-            Input(label: "Industry (Key)", placeholder: "Industry (key)"),
-            const SizedBox(height: 18),
-            Input(
-              label: "Number of Dependent Children in the Household",
-              placeholder:
-                  "Number of dependent children living in the household",
-            ),
-            const SizedBox(height: 18),
-            Input(
-                label: "Monthly Net Income",
-                placeholder: " Monthly net income"),
-            const SizedBox(height: 18),
-            Input(
-              label: "Type of Residence (With Parents, Rented, Owned)",
-              placeholder: "Type of residence (with parents, rented, owned)",
-            ),
-            const SizedBox(height: 18),
-            Input(label: "Products (Key)", placeholder: "Products (key)"),
-            const SizedBox(height: 18),
-            Input(
-              label:
-                  "Identification Features (Customer Number, Account Number)",
-              placeholder:
-                  "Identification features (customer number, account number)",
-            ),
-            const SizedBox(height: 18),
-            Input(
-              label: "Customer Status",
-              placeholder:
-                  "Customer status: customer, interested party, contacted non-customer, customer in the opening process (no signature sample yet available), closed",
-            ),
-            const SizedBox(height: 18),
-            Input(
-                label: "Customer Advisor: User ID",
-                placeholder: " Customer advisor: user ID"),
-            SizedBox(height: 18),
           ],
         ),
       ),

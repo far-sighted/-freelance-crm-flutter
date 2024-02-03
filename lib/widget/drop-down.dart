@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class DropDown extends StatelessWidget {
   final String? label;
+  final String? placer;
   final List<String> items;
+  final String? selectedValue;
   final void Function(String?)? onChanged;
   final bool background;
 
@@ -10,7 +12,9 @@ class DropDown extends StatelessWidget {
       {super.key,
       this.label,
       this.onChanged,
+      this.placer,
       required this.items,
+      this.selectedValue,
       this.background = false});
 
   @override
@@ -34,37 +38,36 @@ class DropDown extends StatelessWidget {
                   : Theme.of(context).colorScheme.secondaryContainer,
             ),
             child: DropdownButton<String>(
-              icon: const Icon(Icons.arrow_drop_down_rounded, size: 24.0),
-              dropdownColor: Theme.of(context).colorScheme.surfaceVariant,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 2.0),
-              elevation: 1,
-              underline: Container(
-                height: 0.0,
-                color: Colors.transparent,
-              ),
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                value: selectedValue,
+                icon: const Icon(Icons.arrow_drop_down_rounded, size: 24.0),
+                dropdownColor: Theme.of(context).colorScheme.surfaceVariant,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14.0, vertical: 2.0),
+                elevation: 1,
+                underline: Container(
+                  height: 0.0,
+                  color: Colors.transparent,
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: 13.0,
-              ),
-              borderRadius: const BorderRadius.all(Radius.elliptical(8.0, 8.0)),
-                items: [...items]
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-             
-              onChanged: onChanged,
+                ),
+                borderRadius:
+                    const BorderRadius.all(Radius.elliptical(8.0, 8.0)),
+                items: [...items].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: onChanged,
                 hint: Text(
-                  "Select an option...",
+                  placer ?? "Select an option...",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontSize: 14.0,
                   ),
-                )
-            ))
+                )))
       ],
     );
   }
