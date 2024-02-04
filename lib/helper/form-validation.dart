@@ -175,4 +175,18 @@ class ValidationMixin {
     return null;
   }
 
+  String? validateProducts(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your products';
+    }
+    return null;
+  }
+
+  String? validateCustomerStatus(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your customer status';
+    }
+    return null;
+  }
+
 }

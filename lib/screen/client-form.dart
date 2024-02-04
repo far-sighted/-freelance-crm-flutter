@@ -430,8 +430,8 @@ class _ClientFormState extends State<ClientForm> {
                         const SizedBox(height: 18),
                         FormField<String>(
                           builder: (FormFieldState<String> state) => DropDown(
-                          label: "Industry",
-                          background: true,
+                            label: "Industry",
+                            background: true,
                             items: industries,
                             placer: "Select Industry",
                             onChanged: (p0) {
@@ -457,8 +457,12 @@ class _ClientFormState extends State<ClientForm> {
               Row(
                 children: <Widget>[
                   Switch(
-                    value: false,
-                    onChanged: (p0) => print(p0),
+                    value: client.consentToAdvertising,
+                    onChanged: (p0) {
+                      setState(() {
+                        client.setConsentToAdvertising = p0;
+                      });
+                    },
                   ),
                   const SizedBox(width: 18),
                   const Text("Consent to Advertising via Email (Revocable)")
@@ -467,8 +471,12 @@ class _ClientFormState extends State<ClientForm> {
               Row(
                 children: <Widget>[
                   Switch(
-                    value: false,
-                    onChanged: (p0) => print(p0),
+                    value: client.consentToSchufaTransfer,
+                    onChanged: (p0) {
+                      setState(() {
+                        client.setConsentToSchufaTransfer = p0;
+                      });
+                    },
                   ),
                   const SizedBox(width: 18),
                   const Text("Consent to transfer data to Schufa (Revocable)")
@@ -483,29 +491,59 @@ class _ClientFormState extends State<ClientForm> {
                       left: 14, right: 14, top: 14, bottom: 18),
                   child: Column(
                     children: <Widget>[
-                      DropDown(
+                      FormField<String>(
+                        builder: (FormFieldState<String> state) => DropDown(
                         label: "Products",
                         placer: "Select",
                         items: products,
                         background: true,
-                        onChanged: (p0) => print(p0),
+                          onChanged: (p0) {
+                            setState(() {
+                              client.setProducts = p0!;
+                            });
+                            state.didChange(p0);
+                          },
+                          selectedValue: client.products.isNotEmpty
+                              ? client.products
+                              : null,
+                          isError: state.hasError,
+                          errorMessage: state.errorText,
+                        ),
+                        onSaved: (p0) => client.setProducts = p0!,
+                        validator: ValidationMixin().validateProducts,
                       ),
                       const SizedBox(height: 18),
-                      DropDown(
+                      FormField<String>(
+                        builder: (FormFieldState<String> state) => DropDown(
                         label: "Customer Status",
                         placer: "Select Status",
                         items: customerService,
-                        onChanged: (p0) => print(p0),
+                          onChanged: (p0) {
+                            setState(() {
+                              client.setCustomerStatus = p0!;
+                            });
+                            state.didChange(p0);
+                          },
                         background: true,
+                          selectedValue: client.customerStatus.isNotEmpty
+                              ? client.customerStatus
+                              : null,
+                          isError: state.hasError,
+                          errorMessage: state.errorText,
+                        ),
+                        onSaved: (p0) => client.setCustomerStatus = p0!,
+                        validator: ValidationMixin().validateCustomerStatus,
                       )
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 18),
-              const Input(
+              Input(
                   label: "Customer Advisor: User ID",
-                  placeholder: " Customer advisor: user ID"),
+                placeholder: " Customer advisor: user ID",
+                onSaved: (p0) => client.setCustomerAdvisorUserId = p0!,
+              ),
               const SizedBox(height: 18),
             ],
           ),
