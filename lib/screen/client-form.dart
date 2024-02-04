@@ -7,6 +7,7 @@ import 'package:crm/mocks/marital-status.dart';
 import 'package:crm/mocks/product.dart';
 import 'package:crm/mocks/professional-group.dart';
 import 'package:crm/model/client.dart';
+import 'package:crm/service/client.service.dart';
 import 'package:crm/widget/date-picker.dart';
 import 'package:crm/widget/drop-down.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +38,7 @@ class _ClientFormState extends State<ClientForm> {
             onPressed: () {
               if (key.currentState!.validate()) {
                 key.currentState!.save();
-                print(client);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text("Please fill all the required fields"),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ),
-                );
+                ClientService().addClient(client, context);
               }
             },
           ),
@@ -489,10 +483,10 @@ class _ClientFormState extends State<ClientForm> {
                     children: <Widget>[
                       FormField<String>(
                         builder: (FormFieldState<String> state) => DropDown(
-                        label: "Products",
-                        placer: "Select",
-                        items: products,
-                        background: true,
+                          label: "Products",
+                          placer: "Select",
+                          items: products,
+                          background: true,
                           onChanged: (p0) {
                             setState(() {
                               client.setProducts = p0!;
@@ -511,16 +505,16 @@ class _ClientFormState extends State<ClientForm> {
                       const SizedBox(height: 18),
                       FormField<String>(
                         builder: (FormFieldState<String> state) => DropDown(
-                        label: "Customer Status",
-                        placer: "Select Status",
-                        items: customerService,
+                          label: "Customer Status",
+                          placer: "Select Status",
+                          items: customerService,
                           onChanged: (p0) {
                             setState(() {
                               client.setCustomerStatus = p0!;
                             });
                             state.didChange(p0);
                           },
-                        background: true,
+                          background: true,
                           selectedValue: client.customerStatus.isNotEmpty
                               ? client.customerStatus
                               : null,
@@ -536,7 +530,7 @@ class _ClientFormState extends State<ClientForm> {
               ),
               const SizedBox(height: 18),
               Input(
-                  label: "Customer Advisor: User ID",
+                label: "Customer Advisor: User ID",
                 placeholder: " Customer advisor: user ID",
                 onSaved: (p0) => client.setCustomerAdvisorUserId = p0!,
               ),

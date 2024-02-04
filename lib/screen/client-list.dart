@@ -95,7 +95,13 @@ class _ClientListState extends State<ClientList> {
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
-                            // Handle delete action
+                            ClientService()
+                                .deleteClient(clients[index].id!)
+                                .then((_) {
+                              setState(() {
+                                clients.removeAt(index);
+                              });
+                            });
                           },
                         ),
                       ),
