@@ -20,6 +20,7 @@ class ClientForm extends StatefulWidget {
 }
 
 class _ClientFormState extends State<ClientForm> {
+  final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +40,10 @@ class _ClientFormState extends State<ClientForm> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        child: Column(
+        child: Form(
+          key: key,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
           children: [
             Card(
               elevation: 1,
@@ -301,7 +305,7 @@ class _ClientFormState extends State<ClientForm> {
                   children: <Widget>[
                     DropDown(
                       label: "Products",
-                      placer: "Select",
+                        placer: "Select", 
                       items: products,
                       background: true,
                       onChanged: (p0) => print(p0),
@@ -322,8 +326,9 @@ class _ClientFormState extends State<ClientForm> {
             const Input(
                 label: "Customer Advisor: User ID",
                 placeholder: " Customer advisor: user ID"),
-            SizedBox(height: 18),
+              const SizedBox(height: 18),
           ],
+        ),
         ),
       ),
     );
