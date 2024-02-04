@@ -61,10 +61,10 @@ class Input extends StatelessWidget {
               borderSide: BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.all(Radius.elliptical(8.0, 8.0)),
             ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.elliptical(8.0, 8.0)),
+            errorBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.elliptical(8.0, 8.0)),
               borderSide: BorderSide(
-                color: Colors.transparent,
+                color: Theme.of(context).colorScheme.error,
               ),
             ),
             focusedErrorBorder: const OutlineInputBorder(
