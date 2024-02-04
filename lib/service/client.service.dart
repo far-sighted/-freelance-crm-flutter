@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crm/model/client.dart';
+import 'package:crm/screen/client-list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,6 +29,9 @@ class ClientService {
   Future<void> addClient(
     Client client,
     BuildContext context,
+    String zone,
+    String id,
+    String code,
   ) async {
     final response = await http.post(uri,
         headers: <String, String>{
@@ -37,7 +41,15 @@ class ClientService {
 
     if (response.statusCode == 201) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pop(true);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ClientList(
+            id: id,
+            zone: zone,
+            districtId: code,
+          ),
+        ),
+      );
     } else {
       throw Exception('Failed to add client');
     }

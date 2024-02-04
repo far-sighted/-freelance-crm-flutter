@@ -16,8 +16,10 @@ import 'package:crm/widget/input.dart';
 class ClientForm extends StatefulWidget {
   final String id;
   final String code;
+  final String zone;
 
-  const ClientForm({super.key, required this.id, required this.code});
+  const ClientForm(
+      {super.key, required this.id, required this.zone, required this.code});
 
   @override
   State<ClientForm> createState() => _ClientFormState();
@@ -38,7 +40,8 @@ class _ClientFormState extends State<ClientForm> {
             onPressed: () {
               if (key.currentState!.validate()) {
                 key.currentState!.save();
-                ClientService().addClient(client, context);
+                ClientService().addClient(
+                    client, context, widget.id, widget.zone, widget.code);
               }
             },
           ),

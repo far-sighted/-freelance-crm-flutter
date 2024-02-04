@@ -49,6 +49,7 @@ class _ClientListState extends State<ClientList> {
         path: ClientForm(
           id: widget.id,
           code: widget.districtId,
+          zone: widget.zone,
         ),
       ),
       body: RefreshIndicator(
@@ -82,6 +83,7 @@ class _ClientListState extends State<ClientList> {
                         MaterialPageRoute(
                           builder: (context) => ClientForm(
                             id: widget.id,
+                            zone: widget.zone,
                             code: widget.districtId,
                           ),
                         ),
