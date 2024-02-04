@@ -28,15 +28,26 @@ class _ClientListState extends State<ClientList> {
   @override
   void initState() {
     super.initState();
-    _clientsFuture = ClientService().fetchData();
+    _clientsFuture = ClientService().fetchData(zoneId: widget.id);
+    print("ClientList: ${widget.id}, ${widget.zone}, ${widget.districtId}");
   }
-
 
   Future<void> _refresh() async {
     // Fetch data again when the user pulls to refresh
     setState(() {
-      _clientsFuture = ClientService().fetchData();
+      _clientsFuture = ClientService().fetchData(zoneId: widget.id);
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant ClientList oldWidget) {
+    if (oldWidget.id != widget.id ||
+        oldWidget.zone != widget.zone ||
+        oldWidget.districtId != widget.districtId) {
+      // Widget parameters have changed, update the filter
+      _refresh();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -67,8 +78,7 @@ class _ClientListState extends State<ClientList> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot}'));
               } else {
-                List<Client> clients = snapshot.data ?? [];
-                print(clients);
+                List<Client> clients = snapshot.data ?? [];  
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,

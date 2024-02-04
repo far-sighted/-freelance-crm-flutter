@@ -11,12 +11,15 @@ class ClientService {
       : uri = Uri.https("65b8e844b71048505a89bba7.mockapi.io", "/clients");
 
 // get all clients
-  Future<List<Client>> fetchData() async {
+  Future<List<Client>> fetchData({String? zoneId}) async {
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      final List<Client> clients =
-          jsonData.map((item) => Client.fromMap(item)).toList();
+      final List<Client> clients = jsonData
+          .map((item) => Client.fromMap(item))
+          .where((client) => client.zoneID == zoneId)
+          .toList();
+      print(clients.toString());
       return clients;
     } else {
       throw Exception('Failed to load data');

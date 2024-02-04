@@ -101,6 +101,11 @@ class _ClientFormState extends State<ClientForm> {
 
       _customerAdvisorUserIdController.text = client.customerAdvisorUserId;
     }
+
+if (widget.client == null) {
+      client.setZoneID = widget.id;
+    }
+  
   }
 
   @override
