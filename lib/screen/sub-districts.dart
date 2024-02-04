@@ -58,6 +58,7 @@ class _SubDistrictsState extends State<SubDistricts> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) => ClientList(
+                                  districtId: subDistricts[index].districtId,
                                   zone: subDistricts[index].zone,
                                   id: subDistricts[index].id)),
                         );

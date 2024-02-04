@@ -1,3 +1,4 @@
+import 'package:crm/helper/ref-number-generator.dart';
 import 'package:crm/mocks/customer-status.dart';
 import 'package:crm/mocks/list-countries.dart';
 import 'package:crm/mocks/marital-status.dart';
@@ -9,7 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:crm/widget/input.dart';
 
 class ClientForm extends StatefulWidget {
-  const ClientForm({Key? key}) : super(key: key);
+  final String id;
+  final String code;
+
+  const ClientForm({super.key, required this.id, required this.code});
 
   @override
   State<ClientForm> createState() => _ClientFormState();
@@ -21,11 +25,52 @@ class _ClientFormState extends State<ClientForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Client Form'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save_outlined),
+            onPressed: () => print("Save"),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete_outline,
+                color: Theme.of(context).colorScheme.error),
+            onPressed: () => print("Delete"),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: Column(
           children: [
+            Card(
+              elevation: 1,
+              shadowColor: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 14, right: 14, top: 14, bottom: 18),
+                child: Column(
+                  children: <Widget>[
+                    Input(
+                      label: "Client Number",
+                      background: true,
+                      enabled: false,
+                      controller: TextEditingController(
+                          text: NumberGenerator(widget.code, widget.id)
+                              .getGeneratedValue),
+                    ),
+                    const SizedBox(height: 8),
+                    Input(
+                      label: "Account Number",
+                      background: true,
+                      enabled: false,
+                      controller: TextEditingController(
+                          text: NumberGenerator(widget.code, widget.id)
+                              .getGeneratedValue),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
             const Card(
               elevation: 1,
               shadowColor: Colors.transparent,
@@ -221,7 +266,6 @@ class _ClientFormState extends State<ClientForm> {
                         background: true,
                       ),
                       const SizedBox(height: 18),
-                      
                     ],
                   )),
             ),
@@ -275,6 +319,10 @@ class _ClientFormState extends State<ClientForm> {
               ),
             ),
             const SizedBox(height: 18),
+            const Input(
+                label: "Customer Advisor: User ID",
+                placeholder: " Customer advisor: user ID"),
+            SizedBox(height: 18),
           ],
         ),
       ),
