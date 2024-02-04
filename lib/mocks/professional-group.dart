@@ -13,4 +13,7 @@ const List<String> professionalGroups = [
   'student',
   'self-employed',
   'temporary soldier'
+      'other',
+  'not applicable',
+  'not employed',
 ];

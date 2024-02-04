@@ -1,6 +1,7 @@
 import 'package:crm/helper/form-validation.dart';
 import 'package:crm/helper/ref-number-generator.dart';
 import 'package:crm/mocks/customer-status.dart';
+import 'package:crm/mocks/industry.dart';
 import 'package:crm/mocks/list-countries.dart';
 import 'package:crm/mocks/marital-status.dart';
 import 'package:crm/mocks/product.dart';
@@ -184,42 +185,79 @@ class _ClientFormState extends State<ClientForm> {
                         validator: ValidationMixin().validateDateOfBirth,
                       ),
                       const SizedBox(height: 18),
-                      DropDown(
-                        label: "Nationality",
-                        items: countries,
-                        onChanged: (p0) => print(p0),
-                        background: true,
+                      FormField<String>(
+                        builder: (FormFieldState<String> state) => DropDown(
+                          label: "Nationality",
+                          items: countries,
+                          onChanged: (p0) {
+                            setState(() {
+                              client.setNationality = p0!;
+                            });
+                            state.didChange(p0);
+                          },
+                          background: true,
+                          selectedValue: client.nationality.isNotEmpty
+                              ? client.nationality
+                              : null,
+                          isError: state.hasError,
+                          errorMessage: state.errorText,
+                        ),
+                        onSaved: (p0) => client.setNationality = p0!,
+                        validator: ValidationMixin().validateNationality,
                       ),
                       const SizedBox(height: 18),
-                      DropDown(
-                        label: "Marital Status",
-                        items: maritalStatus,
-                        onChanged: (p0) => print(p0),
-                        background: true,
-                      ),
+                      FormField<String>(
+                          builder: (FormFieldState<String> state) => DropDown(
+                                label: "Marital Status",
+                                items: maritalStatus,
+                                onChanged: (p0) {
+                                  setState(() {
+                                    client.setMaritalStatus = p0!;
+                                  });
+                                  state.didChange(p0);
+                                },
+                                background: true,
+                                selectedValue: client.maritalStatus.isNotEmpty
+                                    ? client.maritalStatus
+                                    : null,
+                                isError: state.hasError,
+                                errorMessage: state.errorText,
+                              ),
+                          onSaved: (p0) => client.setMaritalStatus = p0!,
+                          validator: ValidationMixin().validateMartialStatus),
                       const SizedBox(height: 18),
-                      const Input(
+                      Input(
                         label: "Number of Dependent Children in the Household",
+                        placeholder: "(optional)",
                         keyboardType: TextInputType.number,
                         background: true,
+                        onSaved: (p0) {
+                          if (p0 != null && p0.isNotEmpty) {
+                            client.setNumberOfDependentChildren = int.parse(p0);
+                          } else {
+                            client.setNumberOfDependentChildren = 0;
+                          }
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 18),
-              const Card(
+              Card(
                 elevation: 1,
                 shadowColor: Colors.transparent,
                 child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 14, right: 14, top: 14, bottom: 18),
+                  padding: const EdgeInsets.only(
+                      left: 14, right: 14, top: 14, bottom: 18),
                   child: Column(children: [
                     Input(
                       label: "Street",
                       background: true,
+                      onSaved: (p0) => client.setStreet = p0!,
+                      validator: ValidationMixin().validateStreetName,
                     ),
-                    SizedBox(height: 18),
+                    const SizedBox(height: 18),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,20 +266,27 @@ class _ClientFormState extends State<ClientForm> {
                           child: Input(
                             label: "City",
                             background: true,
+                            onSaved: (p0) => client.setCity = p0!,
+                            validator: ValidationMixin().validateCity,
                           ),
                         ),
-                        SizedBox(width: 18),
+                        const SizedBox(width: 18),
                         Expanded(
                           child: Input(
                             label: "House",
                             background: true,
+                            placeholder: "Number",
+                            onSaved: (p0) => client.setHouse = p0!,
+                            validator: ValidationMixin().validateHouseNumber,
                           ),
                         ),
-                        SizedBox(width: 18),
+                        const SizedBox(width: 18),
                         Expanded(
                           child: Input(
                             label: "Post Code",
                             background: true,
+                            onSaved: (p0) => client.setPostCode = p0!,
+                            validator: ValidationMixin().validateGermanZipCode,
                           ),
                         ),
                       ],
@@ -256,6 +301,7 @@ class _ClientFormState extends State<ClientForm> {
                 background: true,
                 enabled: false,
                 controller: TextEditingController(text: "Germany"),
+                onSaved: (p0) => client.setCountry = "Germany",
               ),
               const SizedBox(height: 18),
               Card(
@@ -264,23 +310,47 @@ class _ClientFormState extends State<ClientForm> {
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 14, right: 14, top: 14, bottom: 18),
-                  child: Row(children: <Widget>[
-                    Expanded(
-                        child: DropDown(
-                      placer: "Type",
-                      label: "Type",
-                      onChanged: (p0) => print(p0),
-                      background: true,
-                      items: const <String>["private", "mobile", "business"],
-                    )),
-                    const SizedBox(width: 18),
-                    const Expanded(
-                        flex: 2,
-                        child: Input(
-                          label: "Phone Number",
-                          background: true,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                            child: FormField<String>(
+                          builder: (FormFieldState<String> state) => DropDown(
+                            placer: "Type",
+                            label: "Type",
+                            onChanged: (p0) {
+                              setState(() {
+                                client.setType = p0!;
+                              });
+                              state.didChange(p0);
+                            },
+                            background: true,
+                            items: const <String>[
+                              "private",
+                              "mobile",
+                              "business"
+                            ],
+                            selectedValue:
+                                client.type.isNotEmpty ? client.type : null,
+                            isError: state.hasError,
+                            errorMessage: state.errorText,
+                          ),
+                          onSaved: (p0) => client.setType = p0!,
+                          validator: ValidationMixin().validatePhoneType,
                         )),
-                  ]),
+                        const SizedBox(width: 18),
+                        Expanded(
+                            flex: 2,
+                            child: Input(
+                              label: "Phone Number",
+                              placeholder: "+49...",
+                              background: true,
+                              keyboardType: TextInputType.phone,
+                              onSaved: (p0) => client.setPhoneNumber = p0!,
+                              validator:
+                                  ValidationMixin().validateGermanPhoneNumber,
+                            )),
+                      ]),
                 ),
               ),
               const SizedBox(height: 18),
@@ -292,36 +362,92 @@ class _ClientFormState extends State<ClientForm> {
                         left: 14, right: 14, top: 14, bottom: 18),
                     child: Column(
                       children: <Widget>[
-                        DropDown(
-                          label: "Professional Group",
-                          items: professionalGroups,
-                          onChanged: (p0) => print(p0),
-                          background: true,
+                        FormField<String>(
+                          builder: (FormFieldState<String> state) => DropDown(
+                            label: "Professional Group",
+                            items: professionalGroups,
+                            onChanged: (p0) {
+                              setState(() {
+                                client.setProfessionalGroup = p0!;
+                              });
+                              state.didChange(p0);
+                            },
+                            background: true,
+                            selectedValue: client.professionalGroup.isNotEmpty
+                                ? client.professionalGroup
+                                : null,
+                            isError: state.hasError,
+                            errorMessage: state.errorText,
+                          ),
+                          onSaved: (p0) => client.setProfessionalGroup = p0!,
+                          validator:
+                              ValidationMixin().validateProfessionalGroup,
                         ),
                         const SizedBox(height: 18),
-                        DropDown(
-                          label: "Type of Residence",
-                          items: const <String>["Rent", "Own", "With Parent"],
-                          onChanged: (p0) => print(p0),
-                          background: true,
+                        FormField<String>(
+                          builder: (FormFieldState<String> state) => DropDown(
+                            label: "Type of Residence",
+                            items: const <String>["Rent", "Own", "With Parent"],
+                            onChanged: (p0) {
+                              setState(() {
+                                client.setTypeOfResidence = p0!;
+                              });
+                              state.didChange(p0);
+                            },
+                            background: true,
+                            selectedValue: client.typeOfResidence.isNotEmpty
+                                ? client.typeOfResidence
+                                : null,
+                            isError: state.hasError,
+                            errorMessage: state.errorText,
+                          ),
+                          onSaved: (p0) => client.setTypeOfResidence = p0!,
+                          validator: ValidationMixin().validateTypeOfResidence,
                         ),
                         const SizedBox(height: 18),
-                        const Input(
+                        Input(
                           label: "Monthly Net Income",
                           placeholder: "€",
                           keyboardType: TextInputType.number,
                           background: true,
+                          onSaved: (p0) {
+                            try {
+                              client.setMonthlyNetIncome = double.parse(p0!);
+                            } catch (e) {
+                              client.setMonthlyNetIncome = 0.0;
+                            }
+                          },
+                          validator: ValidationMixin().validateMonthlyNetIncome,
                         ),
                         const SizedBox(height: 18),
-                        const DatePicker(
+                        DatePicker(
                           label:
                               "Employed by Current Employer Since/Self-Employed Since",
                           backgroud: true,
+                          onSaved: (p0) => client.setEmployedSince = p0!,
+                          validator: ValidationMixin().validateEmployedSince,
                         ),
                         const SizedBox(height: 18),
-                        const Input(
+                        FormField<String>(
+                          builder: (FormFieldState<String> state) => DropDown(
                           label: "Industry",
                           background: true,
+                            items: industries,
+                            placer: "Select Industry",
+                            onChanged: (p0) {
+                              setState(() {
+                                client.setIndustry = p0!;
+                              });
+                              state.didChange(p0);
+                            },
+                            selectedValue: client.industry.isNotEmpty
+                                ? client.industry
+                                : null,
+                            isError: state.hasError,
+                            errorMessage: state.errorText,
+                          ),
+                          onSaved: (p0) => client.setIndustry = p0!,
+                          validator: ValidationMixin().validateIndustry,
                         ),
                         const SizedBox(height: 18),
                       ],

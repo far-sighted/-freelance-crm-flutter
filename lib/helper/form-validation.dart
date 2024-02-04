@@ -69,4 +69,110 @@ class ValidationMixin {
     return null;
   }
 
+  String? validateNationality(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'verify your nationality';
+    }
+    return null;
+  }
+
+  String? validateMartialStatus(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your marital status';
+    }
+    return null;
+  }
+
+  String? validateStreetName(String? p0) {
+    if (p0 == null || p0.isEmpty || p0.length < 10) {
+      return 'Please enter a valid street name';
+    }
+    return null;
+  }
+
+  String? validateCity(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please enter your city';
+    }
+
+    if (RegExp(r'[0-9]').hasMatch(p0)) {
+      return 'Please enter a valid city name';
+    }
+
+    return null;
+  }
+
+  String? validateHouseNumber(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please enter your house number';
+    }
+    return null;
+  }
+
+  String? validateGermanZipCode(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please enter your zip code';
+    }
+    if (!RegExp(r'^[0-9]{5}$').hasMatch(p0)) {
+      return 'Please enter a valid zip code';
+    }
+    return null;
+  }
+
+  String? validatePhoneType(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your phone type';
+    }
+    return null;
+  }
+
+  String? validateGermanPhoneNumber(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please enter your phone number';
+    }
+
+    if (!RegExp(r'^\+49[0-9]{10}$').hasMatch(p0)) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
+  String? validateProfessionalGroup(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your professional group';
+    }
+    return null;
+  }
+
+  String? validateTypeOfResidence(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your type of residence';
+    }
+    return null;
+  }
+
+  String? validateMonthlyNetIncome(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please enter your monthly net income';
+    }
+    if (!RegExp(r'^[0-9.]+$').hasMatch(p0)) {
+      return 'Please enter a valid number for monthly net income';
+    }
+    return null;
+  }
+
+  String? validateEmployedSince(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your employment start date';
+    }
+    return null;
+  }
+
+  String? validateIndustry(String? p0) {
+    if (p0 == null || p0.isEmpty) {
+      return 'Please select your industry';
+    }
+    return null;
+  }
+
 }
