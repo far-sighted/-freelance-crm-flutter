@@ -66,6 +66,10 @@ class _LoginState extends State<Login> {
                         if (value == null || value.isEmpty) {
                           return 'Email is required';
                         }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
                         return null;
                       },
                       onSaved: (String? value) => userLogin.setEmail = value!,

@@ -31,6 +31,7 @@ class _ClientListState extends State<ClientList> {
     _clientsFuture = ClientService().fetchData();
   }
 
+
   Future<void> _refresh() async {
     // Fetch data again when the user pulls to refresh
     setState(() {

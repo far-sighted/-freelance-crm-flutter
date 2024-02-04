@@ -37,8 +37,7 @@ class ClientService {
 
     if (response.statusCode == 201) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      print("Client added successfully");
+      Navigator.of(context).pop(true);
     } else {
       throw Exception('Failed to add client');
     }
