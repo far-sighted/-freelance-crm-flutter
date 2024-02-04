@@ -36,7 +36,7 @@ class ClientService {
       return clients.firstWhere((element) => element.id == clientId);
     } else {
       throw Exception('Failed to load data');
-    }
+    } 
   }
 
   // add a new client
