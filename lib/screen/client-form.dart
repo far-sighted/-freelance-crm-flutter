@@ -177,9 +177,11 @@ class _ClientFormState extends State<ClientForm> {
                         validator: ValidationMixin().validateGenderSelected,
                       ),
                       const SizedBox(height: 18),
-                      const DatePicker(
+                      DatePicker(
                         label: "Brith Date",
                         backgroud: true,
+                        onSaved: (p0) => client.setBirthDate = p0!,
+                        validator: ValidationMixin().validateDateOfBirth,
                       ),
                       const SizedBox(height: 18),
                       DropDown(
