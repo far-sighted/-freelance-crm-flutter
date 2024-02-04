@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 class ClientService {
   Uri uri;
   ClientService()
-      : uri = Uri.https(
-            "069718fd-da44-4e6b-9797-73c923894358.mock.pstmn.io", "/clients");
+      : uri = Uri.https("65b8e844b71048505a89bba7.mockapi.io", "/clients");
 
 // get all clients
   Future<List<Client>> fetchData() async {
@@ -16,6 +15,7 @@ class ClientService {
       final List<dynamic> jsonData = json.decode(response.body);
       final List<Client> clients =
           jsonData.map((item) => Client.fromMap(item)).toList();
+      print("clients ${clients.toString()}");
       return clients;
     } else {
       throw Exception('Failed to load data');
@@ -26,5 +26,4 @@ class ClientService {
   // add a new client
   // delete the client
   // update the client
-
 }

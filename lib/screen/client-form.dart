@@ -411,11 +411,7 @@ class _ClientFormState extends State<ClientForm> {
                           keyboardType: TextInputType.number,
                           background: true,
                           onSaved: (p0) {
-                            try {
-                              client.setMonthlyNetIncome = double.parse(p0!);
-                            } catch (e) {
-                              client.setMonthlyNetIncome = 0.0;
-                            }
+                            client.setMonthlyNetIncome = p0!;
                           },
                           validator: ValidationMixin().validateMonthlyNetIncome,
                         ),

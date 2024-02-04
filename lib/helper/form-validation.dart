@@ -131,7 +131,7 @@ class ValidationMixin {
       return 'Please enter your phone number';
     }
 
-    if (!RegExp(r'^\+49[0-9]{10}$').hasMatch(p0)) {
+    if (!RegExp(r'^\+49 [0-9]{10}$').hasMatch(p0)) {
       return 'Please enter a valid phone number';
     }
     return null;
@@ -155,7 +155,7 @@ class ValidationMixin {
     if (p0 == null || p0.isEmpty) {
       return 'Please enter your monthly net income';
     }
-    if (!RegExp(r'^[0-9.]+$').hasMatch(p0)) {
+    if (!RegExp(r'^[0-9,.]+$').hasMatch(p0)) {
       return 'Please enter a valid number for monthly net income';
     }
     return null;

@@ -23,7 +23,7 @@ class Client {
   String phoneNumber;
   String professionalGroup;
   String typeOfResidence;
-  double monthlyNetIncome;
+  String monthlyNetIncome;
   DateTime? employedSince;
   String industry;
   bool consentToAdvertising;
@@ -31,6 +31,8 @@ class Client {
   String products;
   String customerStatus;
   String customerAdvisorUserId;
+
+  String? zoneID;
 
   Client({
     this.id,
@@ -55,7 +57,7 @@ class Client {
     this.phoneNumber = "",
     this.professionalGroup = "",
     this.typeOfResidence = "",
-    this.monthlyNetIncome = 0,
+    this.monthlyNetIncome = "0.0",
     this.employedSince,
     this.industry = "",
     this.consentToAdvertising = false,
@@ -63,6 +65,8 @@ class Client {
     this.products = "",
     this.customerStatus = "",
     this.customerAdvisorUserId = "",
+
+    this.zoneID = "",
   });
 
   String get getClientNumber => clientNumber;
@@ -129,8 +133,8 @@ class Client {
   String get getTypeOfResidence => typeOfResidence;
   set setTypeOfResidence(String value) => typeOfResidence = value;
 
-  double get getMonthlyNetIncome => monthlyNetIncome;
-  set setMonthlyNetIncome(double value) => monthlyNetIncome = value;
+  String get getMonthlyNetIncome => monthlyNetIncome;
+  set setMonthlyNetIncome(String value) => monthlyNetIncome = value;
 
   DateTime? get getEmployedSince => employedSince;
   set setEmployedSince(DateTime value) => employedSince = value;
@@ -153,8 +157,12 @@ class Client {
   String get getCustomerAdvisorUserId => customerAdvisorUserId;
   set setCustomerAdvisorUserId(String value) => customerAdvisorUserId = value;
 
+  String? get getZoneID => zoneID;
+  set setZoneID(String? value) => zoneID = value;  
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'clientNumber': clientNumber,
       'accountNumber': accountNumber,
       'email': email,
@@ -184,11 +192,14 @@ class Client {
       'products': products,
       'customerStatus': customerStatus,
       'customerAdvisorUserId': customerAdvisorUserId,
+
+      'zoneID': zoneID,
     };
   }
 
   factory Client.fromMap(Map<String, dynamic> map) {
     return Client(
+      id: map['id'] as String,
       clientNumber: map['clientNumber'] as String,
       accountNumber: map['accountNumber'] as String,
       email: map['email'] as String,
@@ -210,7 +221,7 @@ class Client {
       phoneNumber: map['phoneNumber'] as String,
       professionalGroup: map['professionalGroup'] as String,
       typeOfResidence: map['typeOfResidence'] as String,
-      monthlyNetIncome: map['monthlyNetIncome'] as double,
+      monthlyNetIncome: map['monthlyNetIncome'] as String,
       employedSince: DateTime.parse(map['employedSince'] as String),
       industry: map['industry'] as String,
       consentToAdvertising: map['consentToAdvertising'] as bool,
@@ -218,6 +229,8 @@ class Client {
       products: map['products'] as String,
       customerStatus: map['customerStatus'] as String,
       customerAdvisorUserId: map['customerAdvisorUserId'] as String,
+
+      zoneID: map['zoneID'] as String,
     );
   }
 
@@ -226,7 +239,7 @@ class Client {
   factory Client.fromJson(String source) =>
       Client.fromMap(json.decode(source) as Map<String, dynamic>);
 
-@override
+  @override
   String toString() {
     return 'Client {\n'
         '  ID: $id\n'
@@ -254,5 +267,4 @@ class Client {
         '  Customer Advisor User ID: $customerAdvisorUserId\n'
         '}';
   }
-
 }
