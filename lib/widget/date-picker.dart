@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
   final String label;
-  final bool backgroud;
-
+  final bool background;
+  final DateTime? initialDate;
   final String? Function(String?)? validator;
   final void Function(DateTime?)? onSaved;
 
   const DatePicker({
     Key? key,
     required this.label,
-    this.backgroud = false,
+    this.initialDate,
+    this.background = false,
     this.onSaved,
     this.validator,
   }) : super(key: key);
@@ -27,9 +28,18 @@ class _DatePickerState extends State<DatePicker> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialDate != null) {
+      selectedDate = widget.initialDate!;
+      isDateSelected = true;
+    }
+    if (widget.initialDate != null) {
+      controller.text = selectedDate.toString().substring(0, 10);
+    } else {
+
     controller.text = isDateSelected
         ? selectedDate.toString().substring(0, 10)
         : "select a Date";
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -67,7 +77,7 @@ class _DatePickerState extends State<DatePicker> {
         TextFormField(
           controller: controller,
           decoration: InputDecoration(
-            fillColor: widget.backgroud
+            fillColor: widget.background
                 ? Theme.of(context).colorScheme.background
                 : Theme.of(context).colorScheme.secondaryContainer,
             focusedBorder: const OutlineInputBorder(

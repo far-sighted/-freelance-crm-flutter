@@ -17,9 +17,14 @@ class ClientForm extends StatefulWidget {
   final String id;
   final String code;
   final String zone;
+  final Client? client;
 
   const ClientForm(
-      {super.key, required this.id, required this.zone, required this.code});
+      {super.key,
+      required this.id,
+      required this.zone,
+      required this.code,
+      this.client});
 
   @override
   State<ClientForm> createState() => _ClientFormState();
@@ -29,27 +34,103 @@ class _ClientFormState extends State<ClientForm> {
   final key = GlobalKey<FormState>();
   Client client = Client();
 
+  late TextEditingController _clientNumberController;
+  late TextEditingController _accountNumberController;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _birthNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _birthDateController = TextEditingController();
+  final TextEditingController _numberOfDependentChildrenController =
+      TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _houseController = TextEditingController();
+  final TextEditingController _postCodeController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _monthlyNetIncomeController =
+      TextEditingController();
+  final TextEditingController _employedSinceController =
+      TextEditingController();
+  final TextEditingController _consentToAdvertisingController =
+      TextEditingController();
+  final TextEditingController _consentToSchufaTransferController =
+      TextEditingController();
+
+  final TextEditingController _customerAdvisorUserIdController =
+      TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _clientNumberController = TextEditingController(
+      text: NumberGenerator(widget.code, widget.id).getGeneratedValue,
+    );
+
+    _accountNumberController = TextEditingController(
+      text: NumberGenerator(widget.code, widget.id).getGeneratedValue,
+    );
+
+    if (widget.client != null) {
+      client = widget.client!;
+      _clientNumberController.text = client.clientNumber;
+      _accountNumberController.text = client.accountNumber;
+      _emailController.text = client.email;
+      _titleController.text = client.title;
+      _birthNameController.text = client.birthName;
+      _lastNameController.text = client.lastName;
+      _firstNameController.text = client.firstName;
+      _birthDateController.text = client.birthDate.toString();
+      _numberOfDependentChildrenController.text =
+          client.numberOfDependentChildren.toString();
+      _streetController.text = client.street;
+      _cityController.text = client.city;
+      _houseController.text = client.house;
+      _postCodeController.text = client.postCode;
+      _phoneNumberController.text = client.phoneNumber;
+      _monthlyNetIncomeController.text = client.monthlyNetIncome;
+      _employedSinceController.text = client.employedSince.toString();
+
+      _consentToAdvertisingController.text =
+          client.consentToAdvertising.toString();
+      _consentToSchufaTransferController.text =
+          client.consentToSchufaTransfer.toString();
+
+      _customerAdvisorUserIdController.text = client.customerAdvisorUserId;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Client Form'),
+        title: Text(client.birthName != "" ? client.birthName : 'Client Form'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save_outlined),
-            onPressed: () {
-              if (key.currentState!.validate()) {
-                key.currentState!.save();
-                ClientService().addClient(
-                    client, context, widget.id, widget.zone, widget.code);
-              }
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.delete_outline,
-                color: Theme.of(context).colorScheme.error),
-            onPressed: () => print("Delete"),
-          ),
+          if (widget.client != null)
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () {
+                if (key.currentState!.validate()) {
+                  key.currentState!.save();
+                  ClientService().updateClient(
+                      client, context, widget.zone, widget.id, widget.code);
+                }
+              },
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.save_outlined),
+              onPressed: () {
+                if (key.currentState!.validate()) {
+                  key.currentState!.save();
+                  ClientService().addClient(
+                      client, context, widget.zone, widget.id, widget.code);
+                }
+              },
+            ),
         ],
       ),
       body: SingleChildScrollView(
@@ -71,9 +152,7 @@ class _ClientFormState extends State<ClientForm> {
                         label: "Client Number",
                         background: true,
                         enabled: false,
-                        controller: TextEditingController(
-                            text: NumberGenerator(widget.code, widget.id)
-                                .getGeneratedValue),
+                        controller: _clientNumberController,
                         onSaved: (p0) => client.setClientNumber = p0!,
                       ),
                       const SizedBox(height: 8),
@@ -81,9 +160,7 @@ class _ClientFormState extends State<ClientForm> {
                         label: "Account Number",
                         background: true,
                         enabled: false,
-                        controller: TextEditingController(
-                            text: NumberGenerator(widget.code, widget.id)
-                                .getGeneratedValue),
+                        controller: _accountNumberController,
                         onSaved: (p0) => client.setAccountNumber = p0!,
                       ),
                     ],
@@ -104,6 +181,7 @@ class _ClientFormState extends State<ClientForm> {
                           background: true,
                           onSaved: (p0) => client.setEmail = p0!,
                           validator: ValidationMixin().validateEmail,
+                          controller: _emailController,
                         ),
                         const SizedBox(height: 10),
                         Input(
@@ -111,6 +189,7 @@ class _ClientFormState extends State<ClientForm> {
                           background: true,
                           onSaved: (p0) => client.setTitle = p0!,
                           validator: ValidationMixin().validateTitle,
+                          controller: _titleController,
                         ),
                         const SizedBox(height: 10),
                         Input(
@@ -118,6 +197,7 @@ class _ClientFormState extends State<ClientForm> {
                           background: true,
                           onSaved: (p0) => client.setBirthName = p0!,
                           validator: ValidationMixin().validateBirthName,
+                          controller: _birthNameController,
                         ),
                       ],
                     )),
@@ -142,6 +222,7 @@ class _ClientFormState extends State<ClientForm> {
                             onSaved: (p0) => client.setLastName = p0!,
                             validator:
                                 ValidationMixin().validateFirstAndLastName,
+                            controller: _lastNameController,
                           )),
                           const SizedBox(width: 18),
                           Expanded(
@@ -151,6 +232,7 @@ class _ClientFormState extends State<ClientForm> {
                             onSaved: (p0) => client.setFirstName = p0!,
                             validator:
                                 ValidationMixin().validateFirstAndLastName,
+                            controller: _firstNameController,
                           ))
                         ],
                       ),
@@ -172,14 +254,17 @@ class _ClientFormState extends State<ClientForm> {
                           errorMessage: state.errorText,
                         ),
                         onSaved: (p0) => client.setGender = p0!,
+                        initialValue:
+                            client.gender.isNotEmpty ? client.gender : null,
                         validator: ValidationMixin().validateGenderSelected,
                       ),
                       const SizedBox(height: 18),
                       DatePicker(
                         label: "Brith Date",
-                        backgroud: true,
+                        background: true,
                         onSaved: (p0) => client.setBirthDate = p0!,
                         validator: ValidationMixin().validateDateOfBirth,
+                        initialDate: client.birthDate,
                       ),
                       const SizedBox(height: 18),
                       FormField<String>(
@@ -200,6 +285,9 @@ class _ClientFormState extends State<ClientForm> {
                           errorMessage: state.errorText,
                         ),
                         onSaved: (p0) => client.setNationality = p0!,
+                        initialValue: client.nationality.isNotEmpty
+                            ? client.nationality
+                            : null,
                         validator: ValidationMixin().validateNationality,
                       ),
                       const SizedBox(height: 18),
@@ -221,6 +309,9 @@ class _ClientFormState extends State<ClientForm> {
                                 errorMessage: state.errorText,
                               ),
                           onSaved: (p0) => client.setMaritalStatus = p0!,
+                          initialValue: client.maritalStatus.isNotEmpty
+                              ? client.maritalStatus
+                              : null,
                           validator: ValidationMixin().validateMartialStatus),
                       const SizedBox(height: 18),
                       Input(
@@ -235,6 +326,7 @@ class _ClientFormState extends State<ClientForm> {
                             client.setNumberOfDependentChildren = 0;
                           }
                         },
+                        controller: _numberOfDependentChildrenController,
                       ),
                     ],
                   ),
@@ -253,6 +345,7 @@ class _ClientFormState extends State<ClientForm> {
                       background: true,
                       onSaved: (p0) => client.setStreet = p0!,
                       validator: ValidationMixin().validateStreetName,
+                      controller: _streetController,
                     ),
                     const SizedBox(height: 18),
                     Row(
@@ -265,6 +358,7 @@ class _ClientFormState extends State<ClientForm> {
                             background: true,
                             onSaved: (p0) => client.setCity = p0!,
                             validator: ValidationMixin().validateCity,
+                            controller: _cityController,
                           ),
                         ),
                         const SizedBox(width: 18),
@@ -275,6 +369,7 @@ class _ClientFormState extends State<ClientForm> {
                             placeholder: "Number",
                             onSaved: (p0) => client.setHouse = p0!,
                             validator: ValidationMixin().validateHouseNumber,
+                            controller: _houseController,
                           ),
                         ),
                         const SizedBox(width: 18),
@@ -284,6 +379,7 @@ class _ClientFormState extends State<ClientForm> {
                             background: true,
                             onSaved: (p0) => client.setPostCode = p0!,
                             validator: ValidationMixin().validateGermanZipCode,
+                            controller: _postCodeController,
                           ),
                         ),
                       ],
@@ -297,8 +393,8 @@ class _ClientFormState extends State<ClientForm> {
                 placeholder: "country",
                 background: true,
                 enabled: false,
-                controller: TextEditingController(text: "Germany"),
                 onSaved: (p0) => client.setCountry = "Germany",
+                controller: TextEditingController(text: "Germany"),
               ),
               const SizedBox(height: 18),
               Card(
@@ -334,6 +430,8 @@ class _ClientFormState extends State<ClientForm> {
                           ),
                           onSaved: (p0) => client.setType = p0!,
                           validator: ValidationMixin().validatePhoneType,
+                          initialValue:
+                              client.type.isNotEmpty ? client.type : null,
                         )),
                         const SizedBox(width: 18),
                         Expanded(
@@ -346,6 +444,7 @@ class _ClientFormState extends State<ClientForm> {
                               onSaved: (p0) => client.setPhoneNumber = p0!,
                               validator:
                                   ValidationMixin().validateGermanPhoneNumber,
+                              controller: _phoneNumberController,
                             )),
                       ]),
                 ),
@@ -377,6 +476,9 @@ class _ClientFormState extends State<ClientForm> {
                             errorMessage: state.errorText,
                           ),
                           onSaved: (p0) => client.setProfessionalGroup = p0!,
+                          initialValue: client.professionalGroup.isNotEmpty
+                              ? client.professionalGroup
+                              : null,
                           validator:
                               ValidationMixin().validateProfessionalGroup,
                         ),
@@ -399,6 +501,9 @@ class _ClientFormState extends State<ClientForm> {
                             errorMessage: state.errorText,
                           ),
                           onSaved: (p0) => client.setTypeOfResidence = p0!,
+                          initialValue: client.typeOfResidence.isNotEmpty
+                              ? client.typeOfResidence
+                              : null,
                           validator: ValidationMixin().validateTypeOfResidence,
                         ),
                         const SizedBox(height: 18),
@@ -411,14 +516,16 @@ class _ClientFormState extends State<ClientForm> {
                             client.setMonthlyNetIncome = p0!;
                           },
                           validator: ValidationMixin().validateMonthlyNetIncome,
+                          controller: _monthlyNetIncomeController,
                         ),
                         const SizedBox(height: 18),
                         DatePicker(
                           label:
                               "Employed by Current Employer Since/Self-Employed Since",
-                          backgroud: true,
+                          background: true,
                           onSaved: (p0) => client.setEmployedSince = p0!,
                           validator: ValidationMixin().validateEmployedSince,
+                          initialDate: client.employedSince,
                         ),
                         const SizedBox(height: 18),
                         FormField<String>(
@@ -440,6 +547,9 @@ class _ClientFormState extends State<ClientForm> {
                             errorMessage: state.errorText,
                           ),
                           onSaved: (p0) => client.setIndustry = p0!,
+                          initialValue: client.industry.isNotEmpty
+                              ? client.industry
+                              : null,
                           validator: ValidationMixin().validateIndustry,
                         ),
                         const SizedBox(height: 18),
@@ -503,6 +613,8 @@ class _ClientFormState extends State<ClientForm> {
                           errorMessage: state.errorText,
                         ),
                         onSaved: (p0) => client.setProducts = p0!,
+                        initialValue:
+                            client.products.isNotEmpty ? client.products : null,
                         validator: ValidationMixin().validateProducts,
                       ),
                       const SizedBox(height: 18),
@@ -525,6 +637,9 @@ class _ClientFormState extends State<ClientForm> {
                           errorMessage: state.errorText,
                         ),
                         onSaved: (p0) => client.setCustomerStatus = p0!,
+                        initialValue: client.customerStatus.isNotEmpty
+                            ? client.customerStatus
+                            : null,
                         validator: ValidationMixin().validateCustomerStatus,
                       )
                     ],
@@ -536,6 +651,7 @@ class _ClientFormState extends State<ClientForm> {
                 label: "Customer Advisor: User ID",
                 placeholder: " Customer advisor: user ID",
                 onSaved: (p0) => client.setCustomerAdvisorUserId = p0!,
+                controller: _customerAdvisorUserIdController,
               ),
               const SizedBox(height: 18),
             ],

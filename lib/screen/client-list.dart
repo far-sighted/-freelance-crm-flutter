@@ -85,6 +85,7 @@ class _ClientListState extends State<ClientList> {
                             id: widget.id,
                             zone: widget.zone,
                             code: widget.districtId,
+                            client: clients[index],
                           ),
                         ),
                       );
